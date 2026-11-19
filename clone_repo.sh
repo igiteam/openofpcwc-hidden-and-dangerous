@@ -1,15 +1,35 @@
+cat > ~/Downloads/mirror-repo.sh <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
+
+# ============================================================================
+# ABOUT THE TOKEN
+# ----------------------------------------------------------------------------
+# The 401 Bad credentials error also means the token you pasted either was
+# empty (because of the paste-in-shell issue) or is invalid/expired. If it
+# still fails after running as a script, generate a fresh token:
+#
+#   1. Go to https://github.com/settings/tokens
+#   2. Generate new token (classic) -> check the "repo" scope -> generate -> copy it.
+#   3. Paste it into the script prompt.
+#
+# That token needs access to BOTH igiteam/openofpcwc-projectigi (read) and the
+# ability to create repos under igiteam. If igiteam is an ORGANIZATION (not
+# your personal account), the POST /user/repos call will NOT work -- you would
+# need to create the repo manually in the org, or switch the endpoint to
+# /orgs/igiteam/repos and ensure your token has org repo-creation rights.
+# ============================================================================
 
 # ====== CONFIG ======
 OLD_OWNER="igiteam"
 OLD_REPO="openofpcwc-projectigi"
-NEW_OWNER="igiteam"                 # change if the new repo lives under a different user/org
+NEW_OWNER="igiteam"
 NEW_REPO="openofpcwc-hidden-and-dangerous"
 # ====================
 
 # Prompt for token (hidden input)
-read -r -s -p "Paste your GitHub Personal Access Token (repo scope): " GH_TOKEN
+printf "Paste your GitHub Personal Access Token (repo scope): "
+read -r -s GH_TOKEN
 echo
 
 if [[ -z "${GH_TOKEN}" ]]; then
@@ -17,7 +37,6 @@ if [[ -z "${GH_TOKEN}" ]]; then
   exit 1
 fi
 
-OLD_URL="https://github.com/${OLD_OWNER}/${OLD_REPO}.git"
 AUTH_OLD="https://x-access-token:${GH_TOKEN}@github.com/${OLD_OWNER}/${OLD_REPO}.git"
 AUTH_NEW="https://x-access-token:${GH_TOKEN}@github.com/${NEW_OWNER}/${NEW_REPO}.git"
 
@@ -25,7 +44,6 @@ WORKDIR="$(mktemp -d)"
 BARE_DIR="${WORKDIR}/${OLD_REPO}.git"
 
 cleanup() {
-  # Remove temp dir and scrub token from any lingering git config
   if [[ -d "${BARE_DIR}" ]]; then
     git -C "${BARE_DIR}" remote set-url --push origin "https://github.com/${NEW_OWNER}/${NEW_REPO}.git" >/dev/null 2>&1 || true
   fi
@@ -33,8 +51,23 @@ cleanup() {
 }
 trap cleanup EXIT
 
+echo "==> Verifying token..."
+HTTP_CODE=$(curl -s -o /tmp/gh_whoami.json -w "%{http_code}" \
+  -H "Authorization: Bearer ${GH_TOKEN}" \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/user)
+
+if [[ "${HTTP_CODE}" != "200" ]]; then
+  echo "Token check failed (HTTP ${HTTP_CODE}):" >&2
+  cat /tmp/gh_whoami.json >&2
+  echo >&2
+  exit 1
+fi
+echo "    Token OK (user: $(grep -o '"login": *"[^"]*"' /tmp/gh_whoami.json | head -1 | cut -d'"' -f4))"
+rm -f /tmp/gh_whoami.json
+
 echo "==> Creating new empty repo ${NEW_OWNER}/${NEW_REPO} on GitHub..."
-# Create the new repo via the API (private by default; set "private": false to make it public)
 HTTP_CODE=$(curl -s -o /tmp/gh_create_resp.json -w "%{http_code}" \
   -X POST \
   -H "Authorization: Bearer ${GH_TOKEN}" \
@@ -51,7 +84,6 @@ else
   echo "    Unexpected API response (HTTP ${HTTP_CODE}):" >&2
   cat /tmp/gh_create_resp.json >&2
   echo >&2
-  echo "If the new repo is under an org, create it manually and re-run." >&2
   exit 1
 fi
 rm -f /tmp/gh_create_resp.json
@@ -64,3 +96,5 @@ git -C "${BARE_DIR}" push --mirror "${AUTH_NEW}"
 
 echo
 echo "Done. New repo: https://github.com/${NEW_OWNER}/${NEW_REPO}"
+EOF
+chmod +x ~/Downloads/mirror-repo.sh
