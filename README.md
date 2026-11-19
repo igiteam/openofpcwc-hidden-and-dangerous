@@ -2,11 +2,6 @@
 ## Operation Flashpoint: Cold War Crisis — Hidden & Dangerous Remake
 A total conversion project that fuses the open-world military sandbox of *Operation Flashpoint: Cold War Crisis* (2001) with the squad-based tactical stealth and behind-enemy-lines sabotage of *Hidden & Dangerous* (1999), built on the open-sourced Poseidon engine source.
 
-## Operation Flashpoint: Cold War Crisis
-This repository holds the engine and game source code (codename *Poseidon*) - the game first released in 2001 as *Operation Flashpoint: Cold War Crisis*. The code has been modernized to C++20, built with CMake and Clang, with cross-platform support for Windows x64 and Linux x64.
-
-## Github Codespace
-[https://petrifying-spirit-9gpgpv4vg7vcvww.github.dev/](https://petrifying-spirit-9gpgpv4vg7vcvww.github.dev/)
 
 ## Github Treeview
 [https://treegit.macosxjs.com/?url=igiteam/openofpcwc-hidden-and-dangerous](https://treegit.macosxjs.com/?url=igiteam/openofpcwc-hidden-and-dangerous)
