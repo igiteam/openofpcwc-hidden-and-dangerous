@@ -60,6 +60,8 @@ A total conversion project that fuses the open-world military sandbox of *Operat
 
 [![Hidden & Dangerous 1 Deluxe completed in 86 minutes, annotated 2D version](https://img.youtube.com/vi/nXCtiULbxlU/maxresdefault.jpg)](https://ytembed.macosxjs.com/?blhDdGlVTGJ4bFU)
 
+[![Hidden and Dangerous Deluxe Ultimate Mod 5.0, Fallen Gods, Greece, 1946](https://img.youtube.com/vi/fsaWn2QWSnI/maxresdefault.jpg)](https://ytembed.macosxjs.com/?ZnNhV24yUVdTbkk)
+
 
 ## Hidden & Dangerous (1999) to Operation Flashpoint: Cold War Crisis
 
