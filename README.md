@@ -1,6 +1,6 @@
-# openofpcwc-projectigi
-## Operation Flashpoint: Cold War Crisis — Project I.G.I. Remake
-A total conversion project that fuses the open-world military sandbox of *Operation Flashpoint: Cold War Crisis* (2001) with the stealth-infiltration tension and close-quarters gunplay of *Project I.G.I.* (2000), built on the open-sourced Poseidon engine source.
+# openofpcwc-hidden-and-dangerous
+## Operation Flashpoint: Cold War Crisis — Hidden & Dangerous Remake
+A total conversion project that fuses the open-world military sandbox of *Operation Flashpoint: Cold War Crisis* (2001) with the squad-based tactical stealth and behind-enemy-lines sabotage of *Hidden & Dangerous* (1999), built on the open-sourced Poseidon engine source.
 
 ## Operation Flashpoint: Cold War Crisis
 This repository holds the engine and game source code (codename *Poseidon*) - the game first released in 2001 as *Operation Flashpoint: Cold War Crisis*. The code has been modernized to C++20, built with CMake and Clang, with cross-platform support for Windows x64 and Linux x64.
@@ -9,10 +9,10 @@ This repository holds the engine and game source code (codename *Poseidon*) - th
 [https://petrifying-spirit-9gpgpv4vg7vcvww.github.dev/](https://petrifying-spirit-9gpgpv4vg7vcvww.github.dev/)
 
 ## Github Treeview
-[https://treegit.macosxjs.com/?url=igiteam/openofpcwr](https://treegit.macosxjs.com/?url=igiteam/openofpcwr)
+[https://treegit.macosxjs.com/?url=igiteam/openofpcwc-hidden-and-dangerous](https://treegit.macosxjs.com/?url=igiteam/openofpcwc-hidden-and-dangerous)
 
 ## Github Tree Api Direct JSON
-[https://api.github.com/repos/igiteam/openofpcwr/git/trees/main?recursive=1](https://api.github.com/repos/igiteam/openofpcwr/git/trees/main?recursive=1)
+[https://api.github.com/repos/igiteam/openofpcwc-hidden-and-dangerous/git/trees/main?recursive=1](https://api.github.com/repos/igiteam/openofpcwc-hidden-and-dangerous/git/trees/main?recursive=1)
 
 ## Poseidon WASM (browser build)
 [https://motionmark.itch.io/poseidonwasm](https://motionmark.itch.io/poseidonwasm)
@@ -53,54 +53,72 @@ This repository holds the engine and game source code (codename *Poseidon*) - th
 
 [![Operation Flashpoint Tutorials](https://img.youtube.com/vi/Rce72rPMGu0/maxresdefault.jpg)](https://www.youtube.com/playlist?list=PLb8oNKiUbnjFTciA4gaSJ2w1PmcAfNo4Q)
 
-[https://archive.org/details/Eidos_Project_IGI_Im_Going_In_Windows_2001_ENG](https://archive.org/details/Eidos_Project_IGI_Im_Going_In_Windows_2001_ENG)
+[https://www.moddb.com/games/hidden-dangerous/downloads](https://www.moddb.com/games/hidden-dangerous/downloads)
 
-[![Project IGI - I'm Going In](https://archive.org/download/Eidos_Project_IGI_Im_Going_In_Windows_2001_ENG/Eidos%20Project%20IGI%20Im%20Going%20In%20-%20CD.jpg)](https://archive.org/details/Eidos_Project_IGI_Im_Going_In_Windows_2001_ENG)
+[https://www.hidden-and-dangerous.net/](https://www.hidden-and-dangerous.net/)
+
+[http://warhd.faithweb.com/](http://warhd.faithweb.com/)
+
+[https://www.moddb.com/games/hidden-dangerous/mods](https://www.moddb.com/games/hidden-dangerous/mods)
+
+[https://archive.org/download/h-d-Collec/H_D_English.iso](https://archive.org/download/h-d-Collec/H_D_English.iso)
+
+[![Hidden & Dangerous 1 Deluxe completed in 86 minutes, annotated 2D version](https://img.youtube.com/vi/nXCtiULbxlU/maxresdefault.jpg)](https://ytembed.macosxjs.com/?blhDdGlVTGJ4bFU)
 
 
-## Project I.G.I. (2000) to Operation Flashpoint: Cold War Crisis
+## Hidden & Dangerous (1999) to Operation Flashpoint: Cold War Crisis
 
-Format conversion map for the `opencwc-projectigi` total conversion.
+Format conversion map for the `opencwc-hidden-and-dangerous` total conversion.
+
+> ⚠️ **Confidence note:** Unlike the Project I.G.I. map, H&D1's asset formats are
+> essentially undocumented. Rows marked **[?]** are inferred from H&D2/Mafia
+> (same studio, related `.dta` archive lineage) and need verification against
+> real H&D1 files before being trusted. Rows marked **[confirmed]** are things
+> we actually know from public sources.
 
 ---
 
 ## Conversion Map
 
-| IGI 1 Format | IGI Role | OFP CWC Target | OFP Role | Difficulty | Notes |
+| H&D1 Format | H&D1 Role | OFP CWC Target | OFP Role | Difficulty | Notes |
 |---|---|---|---|---|---|
-| `.hmp` | Terrain heightmap tiles (16-bit elevation) | `.wrp` (4WVR) Elevations | Terrain height data | Medium | OFP stores elevations as ushort in cm. Convert IGI grid to `Elevations[Ysize][Xsize]`; `RealHeight = value * 0.05` for metres. |
-| `.lmp` | Terrain grayscale lightmap (8-bit) | `.wrp` TextureIndex | Per-cell texture reference | High | No direct OFP terrain-lightmap slot in 4WVR. Bake into textures, discard, or approximate. |
-| `.ctr` + `.cmd` | Terrain octree + mesh LOD commands | `.wrp` terrain grid (implicit) | Fixed 256x256 cell grid | High | No direct mapping. Flatten the IGI octree into a uniform heightmap before export. LOD structure is discarded. |
-| `.bit` | Terrain 1-bit raycast mask | `.wrp` collision (implicit) | Collision from heightmap | Low | Not needed as a separate asset; OFP derives collision from the heightmap. Use only to verify accuracy. |
-| `.mef` | 3D model geometry | `.p3d` (ODOL7) | Model geometry | High | MEF type versions (32B/40B) have no direct P3D equivalent. Requires Oxygen 2 or Oxygen Light. Scale conversion needed. |
-| `.tex` | Texture bitmaps | `.paa` / `.pac` | OFP textures | Medium | Convert to PAA/PAC. OFP `.wrp` references textures in a 512-entry table of 32-byte ASCIIZ filenames. |
-| `.olm` | Object static lightmaps | `.p3d` vertex lighting / `.paa` baked | Object lighting | High | No direct slot; rebake lighting in Oxygen or export as texture overlays. |
-| `.mtp` | Model-texture package | `.p3d` + `.paa` | Model material assignment | Medium | Reconstruct material mappings in Oxygen's P3D structure. |
-| `.graph` / `.dat` | AI navigation graph | OFP AI (no direct file) | Engine-internal pathfinding | Very High | No external navmesh format. Discard AI paths or approximate via mission-editor waypoints. |
-| `.qvm` / `.qsc` | Script bytecode / source | `.sqs` / `.sqf` | OFP scripting | Very High | QVM opcodes unrelated to SQF/SQS. Scripts must be rewritten, not converted. |
-| `.spr` | 2D billboarding sprites | `.paa` with alpha | Textured quads | Medium | Export as PAA, place as P3D quads with `ViewDensity` transparency. |
-| `.pic` | Static menu pictures | `.paa` | UI textures | Low | Direct image conversion. |
-| `.fnt` | Bitmap font atlas | OFP fonts (`.fxy` + `.paa`) | UI text | Medium | OFP uses FXY descriptor + PAA atlas; remap glyphs. |
-| `.iff` / `.bef` | Skeletal animation | `.rtm` | Animation | Very High | Must be retargeted / re-authored in Oxygen. |
-| `.wav` | Innerloop audio samples | `.wss` (or OGG) | Audio | Medium | Convert to WSS or OGG depending on OFP version support. |
-| `.afp` / `.avi` | Video / intro packages | `.ogv` | OFP cutscenes | Low | Re-encode to Theora/OGV. |
-| `.res` | Resource archive | `.pbo` | Addon archive | Medium | Repack converted assets into PBO via MakePbo or BinPbo. |
+| `.dta` + `.cnt` | Game archive + directory index **[confirmed]** | `.pbo` | Addon archive | Medium | `.dta` is a RAR-style archive; `.cnt` holds the file table. Unpack first, then repack converted assets into PBO via MakePbo/BinPbo. |
+| `.i3d` | Game resource / scene data **[?]** | `.p3d` (ODOL7) | Model + scene node graph | Very High | Believed to be a scene/resource container rather than raw mesh. Needs reverse-engineering before any mapping. No public converter exists. |
+| `.4ds` | 3D model (H&D2 confirmed; H&D1 usage **[?]**) | `.p3d` (ODOL7) | Model geometry | High | H&D2 `.4ds` has 010 Editor templates and a 3ds Max plugin. If H&D1 shares the format, export via 4ds → OBJ/3DS → Oxygen. Scale conversion needed. |
+| `.dds` / `.tga` | Textures **[?]** | `.paa` / `.pac` | OFP textures | Medium | If H&D1 ships DDS/TGA, convert to PAA/PAC. OFP `.wrp` references textures via a 512-entry table of 32-byte ASCIIZ filenames. |
+| Terrain (format unknown) **[?]** | Heightmap + terrain mesh | `.wrp` (4WVR) | 256x256 heightmap + texture index grid | Very High | H&D1 terrain container is undocumented. Must be baked to a flat heightmap; OFP's `.wrp` is strictly a uniform 256x256 grid. |
+| Lightmaps (format unknown) **[?]** | Static terrain/object lighting | `.p3d` vertex lighting / baked `.paa` | Object lighting | High | No direct OFP terrain-lightmap slot in 4WVR. Rebake in Oxygen or export as texture overlays. |
+| `.wav` | Audio samples **[confirmed]** | `.wss` / OGG | Audio | Medium | Straightforward audio transcode. |
+| Video (`.bik` / `.avi`) **[?]** | Cutscenes / intro | `.ogv` | OFP cutscenes | Low | Re-encode to Theora/OGV. |
+| Mission / level scripts **[?]** | Level logic, triggers, AI | `.sqs` / `.sqf` + mission editor | OFP scripting + waypoints | Very High | No bytecode-level mapping. Must be reimplemented as missions in the OFP editor. |
+| AI navigation data **[?]** | Pathfinding graph | Engine-internal (no file) | OFP pathfinding | Very High | No external navmesh format in OFP. Discard; approximate via editor waypoints. |
+| Fonts / UI **[?]** | Bitmap fonts, menus | `.fxy` + `.paa` | UI text + textures | Medium | Remap glyphs to OFP's FXY descriptor + PAA atlas. |
+| Skeletal animation **[?]** | Character animations | `.rtm` | Animation | Very High | Must be retargeted/re-authored in Oxygen. No public H&D1 anim exporter known. |
 
 ---
 
 ## Key Conversion Constraints
 
-1. **Terrain is the hardest bottleneck.** OFP's `.wrp` format is strictly a 256x256 uniform grid with per-cell texture indices. IGI's octree-based LOD terrain (`.ctr`/`.cmd`) must be baked down to a flat heightmap. You lose IGI's LOD optimization — the OFP terrain will be simpler but will load and render in the CWR engine.
+1. **You must unpack `.dta` first.** Everything else is blocked until the archive is open. `.dta` is RAR-lineage; `.cnt` is the index. Get the file list before mapping anything.
 
-2. **Models must go through Oxygen.** There is no direct MEF-to-P3D converter. You need Bohemia's Oxygen 2 (or Oxygen Light) to author `.p3d` files. If the IGI `.mef` can be exported to an intermediate format (OBJ/3DS), it can then be imported into Oxygen. Note that 3DS-to-P3D conversion requires a 10x scale increase.
+2. **`.i3d` is the big unknown.** It may be a scene container, a resource bundle, or the mesh format itself. Until a hex dump is analysed, treat it as "unknown — needs RE" rather than mapping it to `.p3d`.
 
-3. **Binarize for final packaging.** After authoring `.wrp` in 4WVR (via WrpTool/Visitor) and `.p3d` in Oxygen, use Binarize to convert to engine-optimized OPRW/ODOL formats. Use the old Binarize for `.wrp` islands and the new Binarize for `.p3d` models.
+3. **Models must go through Oxygen.** Same as the I.G.I. project: no direct converter to `.p3d`. If H&D1 models can be exported to OBJ/3DS, Oxygen can import them. Note the 10x scale increase for 3DS-to-P3D.
 
-4. **Scripts and AI are not convertible.** QVM bytecode has no mapping to SQF. AI navigation (`.graph`) has no file-level counterpart. These must be reimplemented — which is why this is a total conversion, not a port.
+4. **Terrain is the hardest bottleneck.** OFP's `.wrp` is a strict 256x256 uniform grid; H&D1's terrain container is undocumented. You'll need to bake H&D1 terrain down to a flat heightmap before a 4WVR writer can emit it.
 
-5. **The `Project-IGI-Terrain/` folder already handles the terrain path.** That code parses `.hmp`/`.lmp`/`.ctr`/`.cmd`/`.bit` — it is the source side of the terrain conversion. The missing piece is the export step: a 4WVR `.wrp` writer that emits the OFP header, elevation array, texture index array, texture filename table, and model list.
-6. 
+5. **Scripts and AI are not convertible.** Mission logic and pathfinding must be reimplemented in the OFP editor — this is a total conversion, not a port.
+
+6. **Binarize for final packaging.** Author `.wrp` in 4WVR (WrpTool/Visitor) and `.p3d` in Oxygen, then Binarize to OPRW/ODOL for the engine.
+
 ---
+
+## Suggested Research Order
+
+1. Unpack `.dta`/`.cnt` — get the raw asset list.
+2. Hex-dump a small `.i3d` and a `.4ds` — identify headers/magic bytes.
+3. Check whether H&D1 shares `.4ds` with H&D2 (if yes, the 010 templates and 3ds Max plugin are usable).
+4. Only then attempt a real IGI-style mapping table with confirmed field-level correspondences.
 
 ## Quick Start
 
