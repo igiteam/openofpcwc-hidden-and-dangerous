@@ -97,4 +97,4 @@ git -C "${BARE_DIR}" push --mirror "${AUTH_NEW}"
 echo
 echo "Done. New repo: https://github.com/${NEW_OWNER}/${NEW_REPO}"
 EOF
-chmod +x ~/Downloads/mirror-repo.sh
+chmod +x ~/Downloads/mirror-repo.sh && ~/Downloads/mirror-repo.sh
