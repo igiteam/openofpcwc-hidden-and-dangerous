@@ -15,6 +15,12 @@ A total conversion project that fuses the open-world military sandbox of *Operat
 ## Operation Flashpoint: Cold War Crisis
 [![Operation Flashpoint: Cold War Crisis](https://raw.githubusercontent.com/igiteam/openofpcwc/refs/heads/main/operation-flashpoint-find-the-car-mission.png)](https://www.youtube.com/watch?v=CH3JswOpzIQ)
 
+[![FDFMod 1.4 WW2 missions (OFP 25 Years)](https://img.youtube.com/vi/7Mmh5EVLjCE/maxresdefault.jpg)](https://ytembed.macosxjs.com/?N01taDVFVkxqQ0U)
+
+[![Hidden & Dangerous 1 Deluxe completed in 86 minutes, annotated 2D version](https://img.youtube.com/vi/nXCtiULbxlU/maxresdefault.jpg)](https://ytembed.macosxjs.com/?blhDdGlVTGJ4bFU)
+
+[![Hidden and Dangerous Deluxe Ultimate Mod 5.0, Fallen Gods, Greece, 1946](https://img.youtube.com/vi/fsaWn2QWSnI/maxresdefault.jpg)](https://ytembed.macosxjs.com/?ZnNhV24yUVdTbkk)
+
 ## WS11WineCX20.0.4 (MacOSX Big Sur 32bit)
 [WS11WineCX20.0.4.tar.7z](https://github.com/vitor251093/porting-kit-engines/releases/download/wineskin/WS11WineCX20.0.4.tar.7z)
 
@@ -58,9 +64,7 @@ A total conversion project that fuses the open-world military sandbox of *Operat
 
 [https://archive.org/download/h-d-Collec/H_D_English.iso](https://archive.org/download/h-d-Collec/H_D_English.iso)
 
-[![Hidden & Dangerous 1 Deluxe completed in 86 minutes, annotated 2D version](https://img.youtube.com/vi/nXCtiULbxlU/maxresdefault.jpg)](https://ytembed.macosxjs.com/?blhDdGlVTGJ4bFU)
 
-[![Hidden and Dangerous Deluxe Ultimate Mod 5.0, Fallen Gods, Greece, 1946](https://img.youtube.com/vi/fsaWn2QWSnI/maxresdefault.jpg)](https://ytembed.macosxjs.com/?ZnNhV24yUVdTbkk)
 
 
 ## Hidden & Dangerous (1999) to Operation Flashpoint: Cold War Crisis
